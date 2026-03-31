@@ -36,6 +36,5 @@ def predict():
     score = float(model.predict_proba(x)[0][1])
     return jsonify({"score": score})
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+def handler(environ, start_response):
+    return app(environ, start_response)
