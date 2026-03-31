@@ -3,7 +3,6 @@ import numpy as np
 import joblib
 import pandas as pd
 
-
 app = Flask(__name__)
 
 
@@ -36,5 +35,5 @@ def predict():
     score = float(model.predict_proba(x)[0][1])
     return jsonify({"score": score})
 
-def handler(environ, start_response):
-    return app(environ, start_response)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
