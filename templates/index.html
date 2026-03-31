@@ -714,7 +714,7 @@
     //       score = float(model.predict_proba(x)[0][1])
     //       return jsonify({"score": score})
     // ──────────────────────────────────────────────────────────────────────
-    const API_URL = "http://127.0.0.1:5000/predict"; // ← paste your endpoint URL here
+    const API_URL = "https://cardio-scan.app/predict"; // ← paste your endpoint URL here
 
     if (API_URL) {
       const res = await fetch(API_URL, {
