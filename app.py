@@ -1,11 +1,10 @@
-from flask import Flask, jsonify, request, render_template
-import numpy as np
-import joblib
-import pandas as pd
+from flask import Flask, render_template, request
+import pickle
+import os
 
 app = Flask(__name__)
-
-
+model_path = os.path.join(os.path.dirname(__file__), "Utils/model.pkl")
+model = pickle.load(open(model_path, "rb"))
 
 @app.route('/')
 def home():
@@ -13,16 +12,16 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    le_sex = joblib.load('Utils/label_encoder_sex.pkl')
-    le_cpt = joblib.load('Utils/label_encoder_cpt.pkl')
-    le_ecg = joblib.load('Utils/label_encoder_restecg.pkl')
-    le_ea = joblib.load('Utils/label_encoder_exang.pkl')
-    le_st = joblib.load('Utils/label_encoder_st_slope.pkl')
-    scaler = joblib.load('Utils/scaler.pkl')
-    pca = joblib.load('Utils/pca.pkl')
-    model = joblib.load('Utils/model.pkl')
-    d = request.json
-    row = pd.DataFrame([d])
+    le_sex = pickle.load(open('Utils/label_encoder_sex.pkl', 'rb'))
+    le_cpt = pickle.load(open('Utils/label_encoder_cpt.pkl', 'rb'))
+    le_ecg = pickle.load(open('Utils/label_encoder_restecg.pkl', 'rb'))
+    le_ea = pickle.load(open('Utils/label_encoder_exang.pkl', 'rb'))
+    le_st = pickle.load(open('Utils/label_encoder_st_slope.pkl', 'rb'))
+    scaler = pickle.load(open('Utils/scaler.pkl', 'rb'))
+    pca = pickle.load(open('Utils/pca.pkl', 'rb'))
+    model = pickle.load(open('Utils/model.pkl', 'rb'))
+    d = request.form
+    row = [x for x in d.values()]
     print("------------------------------")
     print(row)
     row['Sex'] = le_sex.transform(row['Sex'])
@@ -33,7 +32,7 @@ def predict():
     x = pca.transform(scaler.transform(row))
 
     score = float(model.predict_proba(x)[0][1])
-    return jsonify({"score": score})
+    return {"score": score}
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
