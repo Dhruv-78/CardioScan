@@ -12,14 +12,14 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    le_sex = pickle.load(open('Utils/label_encoder_sex.pkl', 'rb'))
-    le_cpt = pickle.load(open('Utils/label_encoder_cpt.pkl', 'rb'))
-    le_ecg = pickle.load(open('Utils/label_encoder_restecg.pkl', 'rb'))
-    le_ea = pickle.load(open('Utils/label_encoder_exang.pkl', 'rb'))
-    le_st = pickle.load(open('Utils/label_encoder_st_slope.pkl', 'rb'))
-    scaler = pickle.load(open('Utils/scaler.pkl', 'rb'))
-    pca = pickle.load(open('Utils/pca.pkl', 'rb'))
-    model = pickle.load(open('Utils/model.pkl', 'rb'))
+    le_sex = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/label_encoder_sex.pkl"), 'rb'))
+    le_cpt = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/label_encoder_cpt.pkl"), 'rb'))
+    le_ecg = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/label_encoder_restecg.pkl"), 'rb'))
+    le_ea = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/label_encoder_exang.pkl"), 'rb'))
+    le_st = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/label_encoder_st_slope.pkl"), 'rb'))
+    scaler = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/scaler.pkl"), 'rb'))
+    pca = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/pca.pkl"), 'rb'))
+    model = pickle.load(open(os.path.join(os.path.dirname(__file__), "Utils/model.pkl"), 'rb'))
     d = request.form
     row = [x for x in d.values()]
     print("------------------------------")
